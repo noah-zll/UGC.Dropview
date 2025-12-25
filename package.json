@@ -1,0 +1,36 @@
+{
+  "name": "com.ugc.dropview",
+  "version": "0.1.0",
+  "displayName": "UGC.Dropview",
+  "description": "Customizable dropdown content and selection component for Unity UI.",
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "keywords": [
+    "ui",
+    "dropdown",
+    "menu",
+    "selection",
+    "ugc",
+    "component"
+  ],
+  "author": {
+    "name": "UGC",
+    "email": "support@ugc.com",
+    "url": "https://github.com/unity-game-component"
+  },
+  "dependencies": {
+    "com.unity.ugui": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Dropview Demo",
+      "description": "Basic usage examples of UGC.Dropview",
+      "path": "Samples~/BasicDropviewDemo"
+    },
+    {
+      "displayName": "Advanced Dropview Demo",
+      "description": "Advanced usage including multiple selection, search, virtualization",
+      "path": "Samples~/AdvancedDropviewDemo"
+    }
+  ]
+}

@@ -17,6 +17,8 @@ namespace UGC.Dropview.Editor
         SerializedProperty itemHeight;
         SerializedProperty maxVisibleCount;
         SerializedProperty maxScrollHeight;
+        SerializedProperty ensureSorting;
+        SerializedProperty sortingOrder;
         SerializedProperty scrollRect;
         SerializedProperty viewportRect;
         SerializedProperty contentRect;
@@ -33,6 +35,8 @@ namespace UGC.Dropview.Editor
             itemHeight = serializedObject.FindProperty("itemHeight");
             maxVisibleCount = serializedObject.FindProperty("maxVisibleCount");
             maxScrollHeight = serializedObject.FindProperty("maxScrollHeight");
+            ensureSorting = serializedObject.FindProperty("ensureSorting");
+            sortingOrder = serializedObject.FindProperty("sortingOrder");
             scrollRect = serializedObject.FindProperty("scrollRect");
             viewportRect = serializedObject.FindProperty("viewportRect");
             contentRect = serializedObject.FindProperty("contentRect");
@@ -54,6 +58,8 @@ namespace UGC.Dropview.Editor
                 if (maxVisibleCount != null) EditorGUILayout.PropertyField(maxVisibleCount);
             }
             if (maxScrollHeight != null) EditorGUILayout.PropertyField(maxScrollHeight);
+            if (ensureSorting != null) EditorGUILayout.PropertyField(ensureSorting);
+            if (ensureSorting.boolValue && sortingOrder != null) EditorGUILayout.PropertyField(sortingOrder);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Container Binding", EditorStyles.boldLabel);
             if (scrollRect != null) EditorGUILayout.PropertyField(scrollRect);

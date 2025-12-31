@@ -25,6 +25,8 @@ namespace UGC.Dropview
         public float itemHeight = 28f;
         public int maxVisibleCount = 8;
         public float maxScrollHeight = 300f;
+        public bool ensureSorting = true;
+        public int sortingOrder = 30000;
         public IDropviewContentBuilder contentBuilder;
 
         public System.Action OnOpening;
@@ -233,7 +235,7 @@ namespace UGC.Dropview
             blockerRect.anchorMax = Vector2.one;
             blockerRect.offsetMin = Vector2.zero;
             blockerRect.offsetMax = Vector2.zero;
-            EnsureSorting(blockerRect, 29999);
+            EnsureSorting(blockerRect, this.sortingOrder - 1);
             go.SetActive(false);
         }
 
@@ -425,7 +427,7 @@ namespace UGC.Dropview
             EnsureBlocker(canvas);
             
             // Ensure sorting
-            var containerCanvas = EnsureSorting(scrollRect.transform);
+            var containerCanvas = EnsureSorting(scrollRect.transform, this.sortingOrder);
 
             scrollRect.gameObject.SetActive(true);
             LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
@@ -438,8 +440,7 @@ namespace UGC.Dropview
                  (scrollRect.transform as RectTransform).SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, triggerRect.rect.width);
             }
             
-            
-            containerCanvas.overrideSorting = true;
+            if (containerCanvas != null) containerCanvas.overrideSorting = true;
             if (blockerRect != null) blockerRect.gameObject.SetActive(true);
             if (animCoroutine != null) StopCoroutine(animCoroutine);
             animCoroutine = StartCoroutine(Animate(true));
@@ -447,20 +448,14 @@ namespace UGC.Dropview
             OnOpened?.Invoke();
         }
 
-        Canvas EnsureSorting(Transform obj, int sortingOrder = 30000)
+        Canvas EnsureSorting(Transform obj, int order = 30000)
         {
+            if (!ensureSorting) return null;
             var containerCanvas = obj.GetComponent<Canvas>();
             if (containerCanvas == null) containerCanvas = obj.gameObject.AddComponent<Canvas>();
-            containerCanvas.enabled = true;
             containerCanvas.overrideSorting = true;
-            containerCanvas.sortingOrder = sortingOrder;
-            
-            var raycaster = obj.GetComponent<GraphicRaycaster>();
-            if (raycaster == null) raycaster = obj.gameObject.AddComponent<GraphicRaycaster>();
-            raycaster.enabled = true;
-
-            Debug.Log($"EnsureSorting: {obj.gameObject.activeInHierarchy}, {containerCanvas.sortingOrder}");
-
+            containerCanvas.sortingOrder = order;
+            if (obj.GetComponent<GraphicRaycaster>() == null) obj.gameObject.AddComponent<GraphicRaycaster>();
             return containerCanvas;
         }
 
